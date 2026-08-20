@@ -38,7 +38,8 @@ public class Memo {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
     
-    @NotNull
+    @NotNull(message = "優先度を選択してください")
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Priority priority;
 }
