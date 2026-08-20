@@ -1,6 +1,7 @@
 package com.lesson.memo.controller;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,7 +37,8 @@ public class MemoController {
 
     @GetMapping
     public String list(Model model) {
-        List<Memo> memos = memoRepository.findAll(Sort.by(Sort.Direction.ASC, "priority"));
+        List<Memo> memos = memoRepository.findAll();
+        memos.sort(Comparator.comparing(memo -> memo.getPriority().ordinal()));
         model.addAttribute("memos", memos);
         return "memo-list";
     }
@@ -50,8 +51,9 @@ public class MemoController {
 
     @PostMapping("/create")
     public String create(@ModelAttribute @Valid Memo memo,
-            BindingResult result) {
+            BindingResult result, Model model) {
         if (result.hasErrors()) {
+        	model.addAttribute("priorities", Priority.values());
             return "memo-form";
         }
 
