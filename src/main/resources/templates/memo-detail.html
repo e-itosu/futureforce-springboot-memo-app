@@ -18,7 +18,13 @@
         <div class="note-card note-card-large">
             <div class="note-card-header">
                 <h2 class="note-card-title" th:text="${memo.title}">タイトル</h2>
-            </div>
+			
+					<span class="note-badge"
+							th:classappend="${memo.priority.name() == 'MIDDLE' ? 'medium' :#strings.toLowerCase(memo.priority.name())}"
+							th:text="${memo.priority.label}">
+					</span>
+			</div>
+			
             <div class="note-card-content">
                 <p class="note-card-text" th:text="${memo.content}">本文</p>
             </div>
