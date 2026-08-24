@@ -37,18 +37,28 @@ public class MemoController {
     }
 
     @GetMapping
-    public String list(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
-        List<Memo> memos;
-        if(keyword != null && !keyword.isBlank()) {
-        	memos =memoRepository.findByTitleContainingOrContentContaining(keyword, keyword);
-        } else {
-        	memos = memoRepository.findAll();
-        }
-        
+    public String list(Model model) {
+    	
+        List<Memo> memos = memoRepository.findAll();
+         
         memos.sort(Comparator.comparing(memo -> memo.getPriority().ordinal()));
         model.addAttribute("memos", memos);
         return "memo-list";
     }
+    
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+    	List<Memo> memos;
+    	if(keyword !=null && !keyword.isBlank()) {
+    		memos = memoRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+    	} else {
+    		memos = memoRepository.findAll();
+    	}
+    	memos.sort(Comparator.comparing(memo -> memo.getPriority().ordinal()));
+    	model.addAttribute("memos", memos);
+    	model.addAttribute("keyword", keyword);
+    	return "memo-list";
+    	}
 
     @GetMapping("/new")
     public String showForm(Model model) {
