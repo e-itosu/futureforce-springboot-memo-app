@@ -16,12 +16,22 @@
             <a th:href="@{/memo/new}" class="btn btn-primary">
                 <i class="ri-add-circle-line"></i> 新規メモ
             </a>
-        </div>
-
+       
+		
+		<form th:action="@{/memo/search}" method="get" style="margin-bottom: 20px;  display: flex; gap: 10px;">
+			<input type="text" name="keyword" th:value="${param.keyword}" placeholder="検索キーワードを入力" style="padding: 8px; flex: 1;">
+			<button type="submit" class="btn btn-primary">検索</button>
+        </form>	
+		
+		</div>
         <div class="notes-grid">
             <div class="note-card" th:each="memo : ${memos}">
                 <div class="note-card-header">
                     <h3 class="note-card-title" th:text="${memo.title}">タイトル</h3>
+					<span class="note-badge"
+					th:classappend="${memo.priority.name() == 'MIDDLE' ? 'medium' : #strings.toLowerCase(memo.priority.name())}"
+					th:text="${memo.priority.label}">
+					</span>
                 </div>
                 <div class="note-card-content">
                     <p class="note-card-text" th:text="${memo.content}">内容</p>
