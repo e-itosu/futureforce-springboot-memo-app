@@ -17,19 +17,19 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 		http
 		   .authorizeHttpRequests(auth -> auth
-				   .requestMatchers("/css/**","/js/**","/images/**","/register","login").permitAll()
+				   .requestMatchers("/css/**","/js/**","/images/**","/admin/signup","/admin/signin").permitAll()
 				   .anyRequest().authenticated()
 		   )
 		   
-		   .formLogin(login -> login
-				   .loginPage("/login")
-				   .loginProcessingUrl("/login")
-				   .defaultSuccessUrl("/memos",true)
+		   .formLogin(form -> form
+				   .loginPage("/admin/signin")
+				   .loginProcessingUrl("/admin/signin")
+				   .defaultSuccessUrl("/memo",true)
 				   .permitAll()
 		   )
 		   
 		   .logout(logout -> logout
-				   .logoutSuccessUrl("/login?logout")
+				   .logoutSuccessUrl("/asmin/signin?logout")
 				   .permitAll()
 		  );
 		
