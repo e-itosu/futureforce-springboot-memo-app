@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -25,24 +26,28 @@ public class Admin {
 	private Long id;
 	
 	@Column(name = "last_name", nullable = false)
+	@NotBlank(message = "姓を入力してください")
 	private String lastName;
 	
 	@Column(name = "first_name", nullable = false)
+	@NotBlank(message = "名を入力してください")
 	private String firstName;
 	
 	@Column(nullable = false, unique = true)
+	@NotBlank(message = "メールアドレスを入力してください")
 	private String email;
 	
 	@Column(nullable = false)
+	@NotBlank(message = "パスワードを入力してください")
 	private String password;
 	
-	@CreationTimestamp
+	@CreationTimestamp 
 	@Column(name = "created_at", updatable = false)
 	private LocalDateTime createdAt;
 	
 	@UpdateTimestamp
 	@Column(name = "updated_at")
-	private LocalDateTime updateAt;
+	private LocalDateTime updatedAt;
 	
 
 }
